@@ -1,0 +1,273 @@
+<html lang ='en'>
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta charset="utf-8" />
+  <title>PROJECT</title>
+  <!-- Leaflet -->
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <!-- For fly buttons CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/base-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/buttons-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" type="text/css">
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+
+ #map {
+   width: 101%; /*can be in percentage also.*/
+   height: 110%;
+   margin: 0 auto;
+}
+  #div {
+    background-color: #404040;
+    height: 90%;
+    width: 100%;
+  }
+
+
+</style>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" >
+  <a class="navbar-brand" href="/update" target="_blank">Update  History Data</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link active" href="/update_current" target="_blank">Update current Data</a>
+      </li>
+      <li class="nav-item  ">
+        <a class="nav-link" href="/points" target="_blank">Get Data<span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link " href="/current_jsonld" target="_blank">Get Current JSONLD</a>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="http://google.com">
+
+      <input class="form-control mr-sm-2" type="text" placeholder="Search from google..." aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<main role="main">
+<!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron" id="div">
+
+    <div id="map">
+      <div class='button-line'>
+        <div class='pure-button-group'>
+          <button class="pure-button" id="button-fly-lyo">
+            LYON
+          </button>
+          <button class="pure-button " id="button-fly-tol">
+            TOLOUSE
+          </button>
+          <button class="pure-button" id="button-fly-par">
+            VALENCE
+          </button>
+          <button class="pure-button" id="button-fly-mar">
+            MARSEILLE
+          </button>
+          <button class="pure-button" id="button-fly-nan">
+            NANTES
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+
+
+  .button-line{
+        z-index: 1000;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 10px;
+        }
+  .pure-button-group{
+        margin-bottom: 10px;
+        }
+  #button-fly-lyo, #button-fly-tol, #button-fly-par, #button-fly-mar, #button-fly-nan{
+        font-size: 100%;
+        color: white;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+  #button-fly-lyo, #button-fly-tol, #button-fly-par, #button-fly-mar, #button-fly-nan{
+        background: #404040;
+        }
+  .custom .leaflet-popup-tip,
+  .custom .leaflet-popup-content-wrapper {
+    background: #4A4A4A;
+    color: #ffffff;
+}
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script>
+      // SETTINGS buttons-------------------------------------------
+      var map = L.map('map').setView([43.8, 2], 5.5);
+      var tolouse   = [43.6043,  1.4437];
+      var valence      = [39.46975,  -0.37739];
+      var lyon       = [45.75, 4.85];
+      var marseille = [43.296398, 5.37];
+      var nantes = [47.2173, -1.5534]
+      // FLY-TO BUTTONS -------------------------------------
+      var all_buttons = '#button-fly-lyo, #button-fly-par, #button-fly-tol, #button-fly-mar, #button-fly-nan' ;
+
+      $('#button-fly-lyo').on('click', function(){
+      $(all_buttons).removeClass('pure-button-disabled');
+        map.flyTo(lyon, 12);
+        });
+      $('#button-fly-par').on('click', function(){
+      $(all_buttons).removeClass('pure-button-disabled');
+        map.flyTo(valence, 12);
+        });
+      $('#button-fly-tol').on('click', function(){
+      $(all_buttons).removeClass('pure-button-disabled');
+        map.flyTo(tolouse, 14);
+          });
+      $('#button-fly-mar').on('click', function(){
+      $(all_buttons).removeClass('pure-button-disabled');
+        map.flyTo(marseille, 12);
+          });
+      $('#button-fly-nan').on('click', function(){
+      $(all_buttons).removeClass('pure-button-disabled');
+        map.flyTo(nantes, 12);
+              });
+  //----------leaflet part---------------------------------
+      var firefoxIcon = L.icon({
+          iconUrl: 'http://www.altairapps.com/fr/images/apps/icon_santandercycles.png',
+          iconSize: [38, 38], // size of the icon
+
+        });
+        var rat = L.icon({
+            iconUrl: 'https://d2.eu/wp/wp-content/uploads/2012/06/Restaurant-Blue-icon.png',
+            iconSize: [38, 38], // size of the icon
+
+          });
+        var customOptions =
+        {
+        'maxWidth': '500',
+        'className' : 'custom'
+        }
+      var counties = $.ajax({
+          url: "http://127.0.0.1:5000/points",
+          dataType: "json",
+          success: console.log("County data successfully loaded."),
+          error: function(xhr) {
+              alert(xhr.statusText)
+          }
+      });
+      var rest = $.ajax({
+          url: "http://127.0.0.1:5000/rest_tolous",
+          dataType: "json",
+          success: console.log("rest data successfully loaded."),
+          error: function(xhr) {
+              alert(xhr.statusText)
+          }
+      });
+///////////////////////////////////////
+$.when(rest).done(function() {
+    //var map = L.map('map').setView([43, 7], 5.5);
+    var basemap = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+    // Add requested external GeoJSON to map
+    //
+    var kyCounties = L.geoJSON(rest.responseJSON,  {
+        pointToLayer: function (feature, latlng) {
+            var marker = L.marker(latlng, {icon: rat});
+            marker.bindPopup(feature.properties.comment+'</br>'+'<strong>ADDRESS: </strong>'+feature.properties.comment, customOptions);
+            return marker;
+        }
+    }).addTo(map);
+
+
+});
+////////////////////////////////////////
+
+      $.when(counties).done(function() {
+          //var map = L.map('map').setView([43, 7], 5.5);
+          var basemap = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+              maxZoom: 20,
+              attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+          // Add requested external GeoJSON to map
+          //
+          var kyCounties = L.geoJSON(counties.responseJSON,  {
+              pointToLayer: function (feature, latlng) {
+                  var marker = L.marker(latlng, {icon: firefoxIcon});
+                  marker.bindPopup(feature.properties.name+'</br>'+'</br>'+'<strong>Status: </strong>'+feature.properties.status+'<br/>'+'<strong>Available bicycle: </strong>'+ feature.properties.available_bike +'</br>'+  '<strong>Total bike stands: </strong>'+feature.properties.total + '</br>'+'<strong>Last update: </strong>'+feature.properties.last_update +'</br>'+
+                  '<strong>Credit card: </strong>'+feature.properties.banking+'</br>'+'<strong>Address: </strong>'+ feature.properties.address, customOptions);
+                  return marker;
+              }
+          }).addTo(map);
+
+
+      });
+
+
+
+
+
+  </script>
+
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-4">
+        <h2>About me</h2>
+        <!---RDFa about me ------>
+        <div vocab="http://schema.org/" resource="Eldiyar" typeof="Person">
+          <a property="image" href="https://media.licdn.com/dms/image/C5603AQE2GRUP8QpDiA/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=suUrhjtgOmQptWZ_J1pb5n05E3ZO-T8u7faLsTnqUeU">
+            <span property="name">ZHANTILEUOV Eldiyar</span></a>,
+            <span property="jobTitle">Student at UJM/EMSE. </span>
+            <div>Phone: <span property="telephone">+33 7 82787411</span></div>
+            <div>E-mail: <a property="email" href="mailto:zhantileuov.eldiyar@gmail.com">zhantileuov.eldiyar@gmail.com</a></div>
+            <div>Links: <a property="url" href="http://https://www.linkedin.com/in/eldiyar-zhantileuov/">Linkedin profile</a></div>
+            <div>Adress: <span property='streetAdress'>32 rue Emile Littré</span>,
+            <span property='addressLocality'> SAINT ETIENNE</span></div>
+          </div>
+        <p> </p>
+        <p><a class="btn btn-secondary" href="https://www.linkedin.com/in/eldiyar-zhantileuov-1a9992159" role="button" target="_blank">View details</a></p>
+      </div>
+      <!---RDFa  ------>
+      <div class="col-md-4">
+        <h2>Apache Jena Fuseki</h2>
+        <div vocab="http://schema.org/" resource="Fuseki" typeof="triplestoeServer">
+        <span property="label">Apache Jena Fuseki </span> is a SPARQL server. It can run as a operating system service, as a <span property="description">Java web application (WAR file) </span>
+        , and as a standalone server. Fuseki is tightly integrated with TDB to provide a robust, transactional persistent storage layer, and incorporates Jena text query. It can be used to provide the protocol engine for other RDF query and storage systems
+        <p></p>
+        <p><a class="btn btn-secondary" href="https://jena.apache.org/documentation/fuseki2/fuseki-quick-start.html" role="button" target="_blank">Quick Start</a></p>
+      </div>
+    </div>
+      <div class="col-md-4">
+        <h2>NavBar Buttons Info</h2>
+        <p>Firs button "Update Fuseki history, we are adding last updated data from veloApi to our triple store". Button "Data", references to data used in this website(data from triple store, got by sparql query)
+        "Update current" is updating our Fuseki server(updating current data)</p>
+        <p><a class="btn btn-secondary" href="http://localhost:3030" role="button" target="_blank">Go to Fuseki Data</a></p>
+      </div>
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+
+</main>
+
+<footer class="container">
+  <p>&copy; SemWeb Project VeloWebsite 2019</p>
+</footer>
+</html>
